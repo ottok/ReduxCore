@@ -81,6 +81,12 @@ if( !class_exists( 'ReduxFramework_extension_customizer' ) ) {
         if ( empty( $this->extension_dir ) ) {
           $this->extension_dir = trailingslashit( str_replace( '\\', '/', dirname( __FILE__ ) ) );
           $this->extension_url = site_url( str_replace( trailingslashit( str_replace( '\\', '/', ABSPATH ) ), '', $this->extension_dir ) );
+
+          // Easier to read and less buggy way to find out correct url, but applicable
+          // only if wp-content found. Othewise fall back to old URL detection code.
+          if ( preg_match("/wp-content\/(.*)/", $this->extension_dir, $match) ) {
+            $this->extension_url = site_url('/wp-content/'.$match[1]);
+          }
         }
 
       }
